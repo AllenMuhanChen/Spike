@@ -8,7 +8,7 @@
 function probewiring=probeConfig_64D
 
 probewiring=[
-    0	0	0	1025	1
+0	0	0	1025	1
 1	0	0	925	1
 2	0	0	825	1
 3	0	0	725	1
