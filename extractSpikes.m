@@ -2,9 +2,6 @@ function extractSpikes(expFolder,expName,probeID,name,copyToZ,MUflag,legacyFlag,
 % extractSpikes computes spike waveforms
 % input parameters:
 % expFolder - experiment folder
-% animalID - animal ID (string)
-% unitID - unit ID (string)
-% expID - experiment ID (string)
 % probeID - probe number to process (number)
 % name - initials
 % copyToZ - copy id file to Z
