@@ -1,4 +1,4 @@
-function extractSpikes(expFolder,animalID,unitID,expID,probeID,name,copyToZ,MUflag,legacyFlag,parts,JobID,varargin)
+function extractSpikes(expFolder,expName, animalID,unitID,expID,probeID,name,copyToZ,MUflag,legacyFlag,parts,JobID,varargin)
 % extractSpikes computes spike waveforms
 % input parameters:
 % expFolder - experiment folder
@@ -37,25 +37,26 @@ settings.legacyFlag=legacyFlag; %for bookkeeping
 
 %% generate basic info
 %load threshold and id data
-expname=[animalID '_u' unitID '_' expID];
+% expname=[animalID '_u' unitID '_' expID];
+expname = expName;
 if MUflag==0
-    load(fullfile(expFolder,animalID,expname,[expname '_p' num2str(probeID) '_threshold.mat'])); %generates thresholding
+    load(fullfile(expFolder,expname,[expname '_p' num2str(probeID) '_threshold.mat'])); %generates thresholding
 else
-    load(fullfile(expFolder,animalID,expname,[expname '_p' num2str(probeID) '_MUthreshold.mat'])); %generates MUthresholding
+    load(fullfile(expFolder,expname,[expname '_p' num2str(probeID) '_MUthreshold.mat'])); %generates MUthresholding
     thresholding=MUthresholding;
 end
-load(fullfile(expFolder,animalID,expname,[expname '_id.mat'])); %generates id
+load(fullfile(expFolder,expname,[expname '_id.mat'])); %generates id
 
 %compute total channel number
 nChannels=sum([id.probes.nChannels]);
 
 %get file size for amplifier file
-if nargin==11
+if nargin==12
     ampFolder=expFolder;
 else
     ampFolder=varargin{1};
 end
-filename=fullfile(ampFolder,animalID,expname,[expname '_amplifier.dat']);
+filename=fullfile(ampFolder,expname,'amplifier.dat');
 fileinfo = dir(filename);
 samples = fileinfo.bytes/(2*nChannels); % Number of samples in amplifier data file
 samplesPerJob = ceil(samples/parts); % Number of samples to allocate to each of the 200 jobs
@@ -214,9 +215,9 @@ Spikes(end-floor(settings.offsetSamples/2)+1:end,:)=0;
 
 %output file - we're saving each job separately so that things can run in parallel
 if MUflag==0
-    outname=fullfile(expFolder,animalID,expname,'SpikeFiles',[expname '_j' num2str(JobID) '_p' num2str(probeID)  '_spike.mat']);
+    outname=fullfile(expFolder,expname,'SpikeFiles',[expname '_j' num2str(JobID) '_p' num2str(probeID)  '_spike.mat']);
 else
-    outname=fullfile(expFolder,animalID,expname,'SpikeFiles',[expname '_j' num2str(JobID) '_p' num2str(probeID)  '_MUspike.mat']); 
+    outname=fullfile(expFolder,expname,'SpikeFiles',[expname '_j' num2str(JobID) '_p' num2str(probeID)  '_MUspike.mat']); 
 end
 matOut=matfile(outname,'Writable',true);
 
@@ -344,7 +345,7 @@ if JobID==0
         id.MUextractSpikes.settings{probeID}=settings;
     end
     
-    save(fullfile(expFolder,animalID,expname,[expname '_id.mat']),'id'); 
+    save(fullfile(expFolder,expname,[expname '_id.mat']),'id'); 
     
     if copyToZ==1
         zbase='Z:\EphysNew\processedSpikes';

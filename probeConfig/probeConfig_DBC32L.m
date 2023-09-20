@@ -8,7 +8,7 @@
 function probewiring=probeConfig_DBC32L
 zpos= flipud([0:65:2015]');
 ch_indices = [15, 16, 1, 30, 8, 23, 0, 31, 14, 17, 2, 29, 13, 18, 7, 24, 3, 28, 12, 19, 4, 27, 9, 22, 11, 20, 5, 26, 10, 21, 6, 25]';
-probewiring = [ch_indices, repmat(0,32,1), repmat(0,32,1), zpos, repmat(1,32,1)];
+probewiring = [ch_indices-1, repmat(0,32,1), repmat(0,32,1), zpos, repmat(1,32,1)];
 probewiring = sortrows(probewiring, 1, 'ascend');
 % probewiring=[
 %     0	0	0	1025	1
