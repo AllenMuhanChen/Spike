@@ -1,4 +1,4 @@
-function extractSpikes(expFolder,expName, animalID,unitID,expID,probeID,name,copyToZ,MUflag,legacyFlag,parts,JobID,varargin)
+function extractSpikes(expFolder,expName,probeID,name,copyToZ,MUflag,legacyFlag,parts,JobID,varargin)
 % extractSpikes computes spike waveforms
 % input parameters:
 % expFolder - experiment folder
@@ -51,7 +51,7 @@ load(fullfile(expFolder,expname,[expname '_id.mat'])); %generates id
 nChannels=sum([id.probes.nChannels]);
 
 %get file size for amplifier file
-if nargin==12
+if nargin==9
     ampFolder=expFolder;
 else
     ampFolder=varargin{1};
@@ -347,10 +347,10 @@ if JobID==0
     
     save(fullfile(expFolder,expname,[expname '_id.mat']),'id'); 
     
-    if copyToZ==1
-        zbase='Z:\EphysNew\processedSpikes';
-        save(fullfile(zbase,animalID,expname,[expname '_id.mat']),'id'); 
-    end
+    % if copyToZ==1
+    %     zbase='Z:\EphysNew\processedSpikes';
+    %     save(fullfile(zbase,animalID,expname,[expname '_id.mat']),'id'); 
+    % end
     
 end
 
